@@ -2,125 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// class NumBox extends React.Component {
-// 	constructor(props) {
-// 		super(props);
-// 	}
-// 	render() {
-// 		return (
-// 			<button className="numBox">
-// 			{this.props.value}
-// 			</button>
-// 		);
-// 	}
-// }
-
-// class OpBox extends React.Component {
-// 	render() {
-// 		return (
-// 			<button className="opBox">
-// 			{this.props.value}
-// 			</button>
-// 		);
-// 	}
-// }
-
-// class TextBox extends React.Component{
-// 	render() {
-// 		return (
-// 			<button className="textBox">
-// 			{this.props.value}
-// 			</button>
-// 		);
-// 	}
-// }
-
-// class Nums extends React.Component {
-// 	renderNumBox(i) {
-// 		return <NumBox value={i}/>;
-// 	}
-// 	renderOpBox(i) {
-// 		return <OpBox value={i}/>;
-// 	}
-
-// 	renderTextBox(i){
-// 		return <TextBox value={i}/>;
-// 	}
-
-// 	render() {
-// 		const prev = 'Answer: X';
-
-// 		return (
-// 			<div>
-// 				<div className="prev">{prev}</div>
-// 				<div className="board-row">
-// 					{this.renderTextBox(0)}
-// 					{this.renderOpBox('Del')}{/* Del */}
-// 					{this.renderOpBox('C')}{/* C */}
-// 				</div>
-// 				<div className="board-row">
-// 					{this.renderNumBox(7)}{/* 7 */}
-// 					{this.renderNumBox(8)}{/* 8 */}
-// 					{this.renderNumBox(9)}{/* 9 */}
-// 					{this.renderOpBox('(')}{/* ( */}
-// 					{this.renderOpBox(')')}{/* ) */}
-// 				</div>
-// 				<div className="board-row">
-// 					{this.renderNumBox(4)}{/* 4 */}
-// 					{this.renderNumBox(5)}{/* 5 */}
-// 					{this.renderNumBox(6)}{/* 6 */}
-// 					{this.renderOpBox('x')}{/* x */}
-// 					{this.renderOpBox('/')}{/* / */}
-// 				</div> 
-// 				<div className="board-row">
-// 					{this.renderNumBox(1)}{/* 1 */}
-// 					{this.renderNumBox(2)}{/* 2 */}
-// 					{this.renderNumBox(3)}{/* 3 */}
-// 					{this.renderOpBox('+')}{/* + */}
-// 					{this.renderOpBox('-')}{/* - */}
-// 				</div> 
-// 				<div className="board-row">
-// 					{this.renderNumBox('+/-')}{/* +/- */}
-// 					{this.renderNumBox(0)}{/* 0 */}
-// 					{this.renderNumBox('.')}{/* . */}
-// 					{this.renderOpBox('Ans')}{/* Ans */}
-// 					{this.renderOpBox('=')}{/* = */}
-// 				</div> 
-// 			</div>
-// 		);
-// 	}
-// }
-
-// class Game extends React.Component {
-// 	render() {
-// 		return (
-// 			<div className="game">
-// 				<div className="game-board">
-// 					<Nums />
-// 				</div>
-// 				<div className="game-info">
-// 					<div>{/* status */}</div>
-// 					<ol>{/* TODO */}</ol>
-// 				</div>
-// 			</div>
-// 		);
-// 	}
-// }
-
-
-// class NumBox extends React.Component {
-// 	constructor(props) {
-// 		super(props);
-// 	}
-// 	render() {
-// 		return (
-// 			<button className="numBox">
-// 			{this.props.value}
-// 			</button>
-// 		);
-// 	}
-// }
-
 function NumBox(props) {
 	return(
 		<button
@@ -246,7 +127,7 @@ class Calculator extends React.Component {
 
 	handleInputClick(i) {
 		// Handle prev starting w/ negative
-		if (i == 'Ans'){
+		if (i === 'Ans'){
 			let newCur = this.state.new? this.state.prev : this.state.cur + this.state.prev
 			this.setState({
 				prev: this.state.prev,
@@ -270,8 +151,8 @@ class Calculator extends React.Component {
 	}
 
 	handleOperationClick(i) {
-		if (i == '-'){
-			if (this.state.new == true){
+		if (i === '-'){
+			if (this.state.new === true){
 				this.setState({
 					prev: this.state.prev,
 					cur: '-',
@@ -334,7 +215,7 @@ class Calculator extends React.Component {
 	}
 
 	handleFunctionClick(i) {
-		if (i == 'C'){
+		if (i === 'C'){
 			this.setState({
 				prev: this.state.prev,
 				cur: '',
@@ -343,17 +224,17 @@ class Calculator extends React.Component {
 				open_paren: this.state.open_paren
 			})
 		}
-		else if (i == 'Del'){
+		else if (i === 'Del'){
 			let newCur = this.state.cur.slice(0, -1)
 			this.setState({
 				prev: this.state.prev,
 				cur: newCur,
-				new: newCur.length == 0? true : false,
+				new: newCur.length === 0? true : false,
 				op_allowed: opAllowed(newCur),
 				open_paren: this.state.open_paren
 			})
 		}
-		else if (i == '='){
+		else if (i === '='){
 			let ans = solve(this.state.cur)
 			this.setState({
 				prev: ans,
@@ -406,13 +287,13 @@ function solve(eq){
 
 	ret = multRe.exec(eq)
 	while(ret != null){
-	  eq = eq.replace(multRe, ret[2] == 'x'? parseFloat(ret[1]) * parseFloat(ret[3]) : parseFloat(ret[1]) * parseFloat(ret[3]))
+	  eq = eq.replace(multRe, ret[2] === 'x'? parseFloat(ret[1]) * parseFloat(ret[3]) : parseFloat(ret[1]) * parseFloat(ret[3]))
 	  ret = multRe.exec(eq)
 	}
 
 	ret = addRe.exec(eq)
 	while(ret != null){
-	  eq = eq.replace(addRe, ret[2] == '+'? parseFloat(ret[1]) + parseFloat(ret[3]) : parseFloat(ret[1]) - parseFloat(ret[3]))
+	  eq = eq.replace(addRe, ret[2] === '+'? parseFloat(ret[1]) + parseFloat(ret[3]) : parseFloat(ret[1]) - parseFloat(ret[3]))
 	  ret = addRe.exec(eq)
 	}
 
@@ -421,5 +302,5 @@ function solve(eq){
 
 function opAllowed(equation){
 	var lastChar = equation.charAt(equation.length-1)
-	return !(lastChar == '+' || lastChar == '-' || lastChar == 'x' || lastChar == '/' || lastChar == '^')
+	return !(lastChar === '+' || lastChar === '-' || lastChar === 'x' || lastChar === '/' || lastChar === '^')
 }
